@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <fcntl.h>
+#include "cub3d.h"
 
 //abrir o fd do mapa;
 //verificar extensao do ficheiro: ".cub";
@@ -23,26 +20,36 @@ int	check_fd(char *str)
 int	check_file_extension(char *str)
 {
 	char *file_extension;
+	int	len;
 
-	file_extension = strchr(str, '.');
+	file_extension = ft_strchr(str, '.');
 	if (!file_extension)
 	{
 		printf("File must end with: '.cub' extension\n");
-		exit(1);
-	}
-	if (strcmp(file_extension, ".cub") == 0)
-	{
-		printf("map found!\n");
 		return (1);
 	}
+	len = ft_strlen(file_extension);
+	while (*file_extension && len == 4)
+	{
+		if (ft_strncmp(file_extension, ".cub", 4) == 0)
+		{
+			printf("map found!\n");
+			return (0);
+		}
+		file_extension++;
+	}
 	printf("Wrong file extension!\n");
-	return (0);
+	return (1);
 }
 
-int	check_map()
+/* int	check_map(char *file_name)
 {
+	int fd;
+
+	fd = open(file_name, O_RDONLY);
 	
-}
+	
+} */
 
 int	map_parsing(char *str)
 {
@@ -52,20 +59,6 @@ int	map_parsing(char *str)
 		return(0);
 	/* if (check_map(str))
 		return (0); */
-	exit (1);
-}
-
-int	main(int ac, char **av)
-{
-	char	*map;
-
-	if (ac != 2)
-	{
-		printf("Invalid arguments\n");
-		return(1);
-	}
-	map = av[1];
-	if (!map_parsing(map))
+	else
 		return (1);
-	return (0);
 }
