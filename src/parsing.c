@@ -1,64 +1,81 @@
 #include "cub3d.h"
 
-//abrir o fd do mapa;
-//verificar extensao do ficheiro: ".cub";
-//mapa so pode conter 6 carateres: 1,0,N,S,E,W
-//tem de estar rodeado por paredes (1);
-
-int	check_fd(char *str)
+void	check_identifier(char *str)
 {
-	int fd;
-
-	fd = open(str, O_RDONLY);
-	if (fd == -1 )
+	if (ft_strncmp(str, "NO ", 3) == 0)
 	{
-		perror("Error");
-		exit(1);
+		printf("OK!\n");
+	}
+	if (ft_strncmp(str, "SO ", 3) == 0)
+	{
+		printf("OK!\n");
+	}
+	if (ft_strncmp(str, "WE ", 3) == 0)
+	{
+		printf("OK!\n");
+	}
+	if (ft_strncmp(str, "EA ", 3) == 0)
+	{
+		printf("OK!\n");
+	}
+}
+
+int	map_file_config(int fd)
+{
+	char	*line;
+	int		i;
+
+	while ((line = get_next_line(fd)))
+	{
+		i = 0;
+		while (line[i])
+		{
+			while (line[i] == ' ')
+				i++;
+			check_identifier(line);
+			i++;
+		}
+		line++;
 	}
 	return (0);
 }
-int	check_file_extension(char *str)
-{
-	char *file_extension;
-	int	len;
 
-	file_extension = ft_strchr(str, '.');
-	if (!file_extension)
+/* int	map_parsing(char *file_name, t_map *map)
+{
+	char	*line;
+	int		fd;
+	int		i;
+
+	map->grid = malloc(sizeof(char *) * (i + 1));
+	if (!map->grid)
 	{
-		printf("File must end with: '.cub' extension\n");
+		printf("Error: Malloc\n");
 		return (1);
 	}
-	len = ft_strlen(file_extension);
-	while (*file_extension && len == 4)
-	{
-		if (ft_strncmp(file_extension, ".cub", 4) == 0)
-		{
-			printf("map found!\n");
-			return (0);
-		}
-		file_extension++;
-	}
-	printf("Wrong file extension!\n");
-	return (1);
-}
-
-/* int	check_map(char *file_name)
-{
-	int fd;
-
+	i = 0;
 	fd = open(file_name, O_RDONLY);
-	
-	
+	while ((line = get_next_line(fd)))
+	{
+		map->grid[i] = ft_strdup(line);
+		printf("%s", map->grid[i]);
+		free(line);
+		i++;
+	}
+	map->grid[i] = NULL;
+	close(fd);
+	return (0);
 } */
 
-int	map_parsing(char *str)
+int	parsing(char *file_name, t_map *map)
 {
-	if (check_fd(str))
-		return (0);
-	if (check_file_extension(str))
-		return(0);
-	/* if (check_map(str))
-		return (0); */
-	else
+	int	fd;
+
+	(void)map;
+	fd = open(file_name, O_RDONLY);
+	if (!map_file_config(fd))
 		return (1);
+/* 	if (!map_parsing(file_name, map))
+		return (1); */
+	close(fd);
+	return (0);
 }

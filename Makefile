@@ -1,3 +1,9 @@
+GREEN  = $(shell printf '\033[0;32m')
+YELLOW = $(shell printf '\033[0;33m')
+BLUE   = $(shell printf '\033[0;34m')
+RED    = $(shell printf '\033[0;31m')
+RESET  = $(shell printf '\033[0m')
+
 NAME = cub3D
 
 SRC = $(wildcard src/*.c)
@@ -9,34 +15,41 @@ RM = rm -f
 MLX_LIB = minilibx-linux/libmlx_Linux.a
 LIBFT = libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes -Imlx_linux -g
+CFLAGS = -Wall -Wextra -Werror -Iincludes -Iminilibx-linux -g
 
-MLX_FLAGS 	= -L ./lib/mlx -L/usr/lib/X11 -lXext -lX11
+MLX_FLAGS = -Lminilibx-linux -lmlx_Linux -L/usr/lib/X11 -lXext -lX11 -lm
 
 all: $(MLX_LIB) $(LIBFT) $(NAME)
 
 $(LIBFT):
-	git submodule update --init --recursive
-	make -C libft
+	@echo "$(YELLOW)[LIBFT] Compiling...$(RESET)"
+	@git submodule update --init --recursive
+	@make -C libft --silent
 
 $(MLX_LIB):
-	git submodule update --init --recursive
-	make -C minilibx-linux
+	@echo "$(YELLOW)[MINILIBX] Compiling...$(RESET)"
+	@git submodule update --init --recursive
+	@make -C minilibx-linux --silent
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(MLX_LIB) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
+	@echo "$(BLUE)[LINKING]$(RESET) cub3D..."
+	@$(CC) $(CFLAGS) $(OBJS) $(MLX_LIB) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "$(YELLOW)[COMPILING]$(RESET) $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	make -C minilibx-linux/ clean
-	make -C libft/ clean
-	$(RM) $(OBJS)
+	@echo "$(RED)[CLEAN] objects...$(RESET)"
+	@make -C minilibx-linux/ clean --silent
+	@make -C libft/ clean --silent
+	@$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
-	make -C libft/ fclean
+
+	@echo "$(RED)[FCLEAN] executable...$(RESET)"
+	@$(RM) $(NAME)
+	@make -C libft/ fclean --silent
 
 re: fclean all
 
