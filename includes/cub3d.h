@@ -9,7 +9,7 @@
 
 typedef struct s_map
 {
-	char	**grid;
+	char	**map_array;
 	int		height;
 }	t_map;
 
