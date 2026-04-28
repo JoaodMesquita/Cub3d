@@ -6,6 +6,22 @@
 //tem de estar rodeado por paredes (1);
 //separar config do mapa
 
+// verificar se o ficheiro tem permissoes e se e um diretorio
+
+int	is_directory(char *file_name)
+{
+	struct stat sb;
+
+	if (stat(file_name, &sb) == -1)
+		return (0);
+	if (S_ISDIR(sb.st_mode))
+	{
+		printf("Its's a directory\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	check_fd(char *str)
 {
 	int fd;
@@ -14,7 +30,7 @@ int	check_fd(char *str)
 	if (fd == -1 )
 	{
 		perror("Error");
-		exit(1);
+		return(1);
 	}
 	close(fd);
 	return (0);
@@ -23,21 +39,15 @@ int	check_fd(char *str)
 int	check_file_extension(char *str)
 {
 	char *file_extension;
-	int	len;
-
-	file_extension = ft_strchr(str, '.');
+	
+	file_extension = ft_strrchr(str, '.');
 	if (!file_extension)
 	{
 		printf("File must end with: '.cub' extension\n");
 		return (1);
 	}
-	len = ft_strlen(file_extension);
-	while (*file_extension && len == 4)
-	{
-		if (ft_strncmp(file_extension, ".cub", 4) == 0)
+	if (ft_strncmp(file_extension, ".cub", 4) == 0)
 			return (0);
-		file_extension++;
-	}
 	printf("Wrong file extension!\n");
 	return (1);
 }
@@ -47,8 +57,10 @@ int	check_args(int ac, char *file_name)
 	if (ac != 2)
 	{
 		printf("Invalid arguments\n");
-		return(1);
+		return(0);
 	}
+	else if (is_directory(file_name))
+		return (0);
 	else if (check_fd(file_name))
 		return (0);
 	else if (check_file_extension(file_name))

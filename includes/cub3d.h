@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
+#include <sys/stat.h>
 
 typedef struct s_map
 {
@@ -15,5 +16,6 @@ typedef struct s_map
 
 
 int	check_args(int ac, char *file_name);
-int	parsing(char *file_name, t_map *map);
+int	map_load(char *file_name, t_map *map);
+int	fill_map_array(char *file_name, t_map *map);
 #endif

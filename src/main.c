@@ -11,7 +11,7 @@ int	main(int ac, char **av)
 	map = malloc(sizeof(t_map));
 	if (!map)
 		return (1);
-	if (!parsing(file_name, map))
+	if (!map_load(file_name, map))
 		exit (1);
 	return (0);
 }
