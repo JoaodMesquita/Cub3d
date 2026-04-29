@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/29 10:25:07 by joapedro          #+#    #+#             */
+/*   Updated: 2026/04/29 10:33:16 by joapedro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-int	gnl_strlen(char *s)
+int	gl_strlen(char *s)
 {
 	int	i;
 
@@ -19,7 +31,7 @@ char	*gnl_strchr(char *s, int c)
 	int		len;
 	int		i;
 
-	len = gnl_strlen(s);
+	len = gl_strlen(s);
 	c = (unsigned char)c;
 	i = 0;
 	while (i <= len)
@@ -39,7 +51,7 @@ char	*gnl_strjoin(char *line, char *read_buffer)
 	int		i;
 	int		j;
 
-	str = malloc((gnl_strlen(line) + gnl_strlen(read_buffer) + 1) * sizeof(char));
+	str = malloc((gl_strlen(line) + gl_strlen(read_buffer) + 1) * sizeof(char));
 	if (!str)
 	{
 		free(str);
@@ -52,7 +64,7 @@ char	*gnl_strjoin(char *line, char *read_buffer)
 		i++;
 	}
 	j = 0;
-	while (j < gnl_strlen(read_buffer))
+	while (j < gl_strlen(read_buffer))
 	{
 		str[i + j] = read_buffer[j];
 		j++;
