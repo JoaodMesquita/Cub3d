@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 10:25:35 by joapedro          #+#    #+#             */
-/*   Updated: 2026/04/29 11:42:51 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/05 12:39:54 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	fill_map_array(char *file_name, t_map *map)
 		map->map_array[i] = ft_strdup(line);
 		if (!map->map_array[i])
 			return (0);
-		//printf("%s", map->map_array[i]);
 		free(line);
 		line = get_next_line(fd);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:03:15 by joapedro          #+#    #+#             */
-/*   Updated: 2026/04/29 15:20:28 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/05 15:42:24 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,45 +22,72 @@ int	is_space(char c)
 	return (c == 32 || (c >= 9 && c <= 13));
 }
 
-void	parse_colors(char *str)
-{
-	printf("%s\n", str);
-}
-void	parse_texture_path(char *str)
-{
-/* 	int	i;
-
-	i = 3; */
-	printf("%s\n", str);
-}
-
-void	check_identifier(char *str)
-{
-	while (is_space(*str))
-		str++;
-	if (ft_strncmp(str, "NO ", 3) == 0 
-	|| ft_strncmp(str, "SO ", 3) == 0
-	|| ft_strncmp(str, "WE ", 3) == 0
-	|| ft_strncmp(str, "EA ", 3) == 0)
-		parse_texture_path(str);
-	else if (ft_strncmp(str, "F ", 2) == 0 || ft_strncmp(str, "C ", 2) == 0)
-		parse_colors(str);
-	else
-		printf("ERROR!\n");
-}
-
 int	is_empty_line(char *str)
 {
 	while (*str)
 	{
 		if (*str != ' ' && *str != '\t' && *str != '\n')
-			return (0);
+		return (0);
 		str++;
 	}
 	return (1);
 }
+int	is_map(char *line)
+{
+	while(*line)
+	{
+		if (*line != ' ' 
+		|| *line != '0'
+		|| *line != '1'
+		|| *line != 'N'
+		|| *line != 'S'
+		|| *line != 'W'
+		|| *line != 'E')
+			return (0);
+		line++;
+	}
+	return (1);
+}	
 
-void	parse_config(t_map *map)
+void	parsing_config(char *line, t_map *map)
+{
+	while (is_space(*line))
+		line++;
+	if (ft_strncmp(line, "NO ", 3) == 0)
+	{
+		map->NO_indentifier = 1;
+		printf("ok\n");
+	}
+	else if (ft_strncmp(line, "SO ", 3) == 0)
+	{
+		map->SO_indentifier = 1;
+		printf("ok\n");
+	}	
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+	{
+		map->WE_indentifier = 1;
+		printf("ok\n");
+	}	
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+	{
+		map->EA_indentifier = 1;
+		printf("ok\n");
+	}
+	else if (ft_strncmp(line, "F ", 2) == 0)
+	{
+		map->F_indentifier = 1;
+		printf("ok\n");
+	}	
+	else if (ft_strncmp(line, "C ", 2) == 0)
+	{
+		map->C_indentifier = 1;
+		printf("ok\n");
+	}	
+	else
+		
+}
+
+void	parsing(t_map *map)
 {
 	int	i;
 	
@@ -68,14 +95,11 @@ void	parse_config(t_map *map)
 	while(map->map_array[i])
 	{
 		if (is_empty_line(map->map_array[i]))
+		{
 			i++;
-		check_identifier(map->map_array[i]);
+			continue;
+		}
+		parsing_config(map->map_array[i], map);
 		i++;
 	}
-}
-
-void	parsing(t_map *map)
-{
-	parse_config(map);
-	//parse_map();
 }

@@ -12,7 +12,14 @@
 typedef struct s_map
 {
 	char	**map_array;
-	char	**grid;
+	//char	**grid;
+	int		is_map;
+	int		NO_indentifier;
+	int		SO_indentifier;
+	int		WE_indentifier;
+	int		EA_indentifier;
+	int		F_indentifier;
+	int		C_indentifier;
 }	t_map;
 
 
