@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:03:15 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/05 15:42:24 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/07 12:37:30 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,75 +16,58 @@
 //tem de estar rodeado por paredes (1);
 //separar config do mapa
 //messagem de erro: "Error\n" seguida de mensagem informativa do erro
+//parsing das texturas: verificar se o ficheiro existe, se pode ser aberto, se termina em .xpm (extensao)
 
-int	is_space(char c)
+void	check_duplicated(t_map *map, int identifier)
 {
-	return (c == 32 || (c >= 9 && c <= 13));
-}
-
-int	is_empty_line(char *str)
-{
-	while (*str)
-	{
-		if (*str != ' ' && *str != '\t' && *str != '\n')
-		return (0);
-		str++;
+	if (identifier > 0)
+	{	
+		printf("Error\nDuplicated type identifier\n");
+		exit(1);
 	}
-	return (1);
+	map->type_identifiers++;
 }
-int	is_map(char *line)
+
+void	check_identifier(char *line, t_map *map)
 {
-	while(*line)
-	{
-		if (*line != ' ' 
-		|| *line != '0'
-		|| *line != '1'
-		|| *line != 'N'
-		|| *line != 'S'
-		|| *line != 'W'
-		|| *line != 'E')
-			return (0);
+	while (is_space(*line))
 		line++;
+	if (ft_strncmp(line, "NO ", 3) == 0)
+		check_duplicated(map, map->NO_identifier++);
+	else if (ft_strncmp(line, "SO ", 3) == 0)
+		check_duplicated(map, map->SO_identifier++);
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+		check_duplicated(map, map->WE_identifier++);
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+		check_duplicated(map, map->EA_identifier++);
+	else if (ft_strncmp(line, "F ", 2) == 0)
+		check_duplicated(map, map->F_identifier++);
+	else if (ft_strncmp(line, "C ", 2) == 0)
+		check_duplicated(map, map->C_identifier++);
+	else if (map->type_identifiers < 6)
+	{
+		printf("Error\nInvalid map configuration file\n");
+		exit(1);
 	}
-	return (1);
-}	
+}
+
+void check_path_texture(char *line)
+{
+	while (!is_space(*line))
+		line++;
+	while (is_space(*line))
+		line++;
+	line = ft_strtrim(line, "\n");
+	check_fd(line);
+	check_file_extension_xpm(line);
+}
 
 void	parsing_config(char *line, t_map *map)
 {
 	while (is_space(*line))
 		line++;
-	if (ft_strncmp(line, "NO ", 3) == 0)
-	{
-		map->NO_indentifier = 1;
-		printf("ok\n");
-	}
-	else if (ft_strncmp(line, "SO ", 3) == 0)
-	{
-		map->SO_indentifier = 1;
-		printf("ok\n");
-	}	
-	else if (ft_strncmp(line, "WE ", 3) == 0)
-	{
-		map->WE_indentifier = 1;
-		printf("ok\n");
-	}	
-	else if (ft_strncmp(line, "EA ", 3) == 0)
-	{
-		map->EA_indentifier = 1;
-		printf("ok\n");
-	}
-	else if (ft_strncmp(line, "F ", 2) == 0)
-	{
-		map->F_indentifier = 1;
-		printf("ok\n");
-	}	
-	else if (ft_strncmp(line, "C ", 2) == 0)
-	{
-		map->C_indentifier = 1;
-		printf("ok\n");
-	}	
-	else
-		
+	check_identifier(line, map);
+	check_path_texture(line);
 }
 
 void	parsing(t_map *map)
@@ -99,7 +82,8 @@ void	parsing(t_map *map)
 			i++;
 			continue;
 		}
-		parsing_config(map->map_array[i], map);
+		if (map->type_identifiers < 6)
+			parsing_config(map->map_array[i], map);
 		i++;
 	}
 }

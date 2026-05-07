@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 10:25:55 by joapedro          #+#    #+#             */
-/*   Updated: 2026/04/29 11:09:11 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/07 12:39:43 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //abrir o fd do mapa;
 //verificar extensao do ficheiro: ".cub";
 //verificar se o ficheiro tem permissoes
-
+/* 
 int	is_directory(char *file_name)
 {
 	struct stat	sb;
@@ -29,7 +29,7 @@ int	is_directory(char *file_name)
 		return (1);
 	}
 	return (0);
-}
+} */
 
 int	check_fd(char *str)
 {
@@ -38,8 +38,8 @@ int	check_fd(char *str)
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("Error");
-		return (1);
+		printf("Error\nNo such file or directory: '%s'\n", str);
+		exit(1);
 	}
 	close(fd);
 	return (0);
@@ -56,13 +56,13 @@ int	check_file_extension(char *str)
 	if (!file_extension)
 	{
 		printf("File must end with: '.cub' extension\n");
-		return (1);
+		exit (1);
 	}
 	len = ft_strlen(file_extension);
 	if ((ft_strncmp(file_extension, ".cub", 4) == 0) && len == 4)
 		return (0);
 	printf("Wrong file extension!\n");
-	return (1);
+	exit (1);
 }
 
 int	check_args(int ac, char *file_name)
@@ -72,12 +72,9 @@ int	check_args(int ac, char *file_name)
 		printf("Invalid arguments\n");
 		return (0);
 	}
-	else if (is_directory(file_name))
-		return (0);
-	else if (check_fd(file_name))
-		return (0);
-	else if (check_file_extension(file_name))
-		return (0);
-	else
-		return (1);
+/* 	else if (is_directory(file_name))
+		return (0); */
+	check_fd(file_name);
+	check_file_extension(file_name);
+	return (0);
 }
