@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:03:15 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/07 12:37:30 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:18:24 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	check_identifier(char *line, t_map *map)
 	}
 }
 
-void check_path_texture(char *line)
+void	check_path_texture(char *line)
 {
 	while (!is_space(*line))
 		line++;
@@ -61,13 +61,28 @@ void check_path_texture(char *line)
 	check_fd(line);
 	check_file_extension_xpm(line);
 }
+void	check_rgb_values(char *line)
+{
+	char *rgb;
+	//int value;
+
+	while (!is_space(*line))
+		line++;
+	while (is_space(*line))
+		line++;
+	
+	printf("%s", rgb);
+}
 
 void	parsing_config(char *line, t_map *map)
 {
 	while (is_space(*line))
 		line++;
 	check_identifier(line, map);
-	check_path_texture(line);
+	if (*line == 'F' || *line == 'C')
+		check_rgb_values(line);
+	else
+		check_path_texture(line);
 }
 
 void	parsing(t_map *map)

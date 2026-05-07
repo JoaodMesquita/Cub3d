@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 10:25:55 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/07 12:39:43 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/07 14:55:57 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //abrir o fd do mapa;
 //verificar extensao do ficheiro: ".cub";
 //verificar se o ficheiro tem permissoes
-/* 
+
 int	is_directory(char *file_name)
 {
 	struct stat	sb;
@@ -26,10 +26,10 @@ int	is_directory(char *file_name)
 	if (S_ISDIR(sb.st_mode))
 	{
 		printf("Its's a directory\n");
-		return (1);
+		exit(1);
 	}
 	return (0);
-} */
+} 
 
 int	check_fd(char *str)
 {
@@ -51,8 +51,7 @@ int	check_file_extension(char *str)
 	int		len;
 
 	file_extension = ft_strrchr(str, '/');
-	file_extension++;
-	file_extension = ft_strchr(file_extension, '.');
+	file_extension = ft_strrchr(str, '.');
 	if (!file_extension)
 	{
 		printf("File must end with: '.cub' extension\n");
@@ -72,8 +71,7 @@ int	check_args(int ac, char *file_name)
 		printf("Invalid arguments\n");
 		return (0);
 	}
-/* 	else if (is_directory(file_name))
-		return (0); */
+ 	is_directory(file_name);
 	check_fd(file_name);
 	check_file_extension(file_name);
 	return (0);

@@ -27,7 +27,7 @@ typedef struct s_map
 int		check_args(int ac, char *file_name);
 int		map_load(char *file_name, t_map *map);
 int		fill_map_array(char *file_name, t_map *map);
-int	check_fd(char *str);
+int		check_fd(char *str);
 
 // parsing
 void	parsing(t_map *map);
