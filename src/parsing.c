@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:03:15 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/07 15:18:24 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:26:33 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ void	check_path_texture(char *line)
 void	check_rgb_values(char *line)
 {
 	char *rgb;
-	//int value;
 
 	while (!is_space(*line))
 		line++;
 	while (is_space(*line))
 		line++;
-	
+	while (ft_strchr(line, ','))
+	{
+		
+	}
 	printf("%s", rgb);
 }
 
