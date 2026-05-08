@@ -64,13 +64,8 @@ int	check_file_extension(char *str)
 	exit (1);
 }
 
-int	check_args(int ac, char *file_name)
+int	check_args(char *file_name)
 {
-	if (ac != 2)
-	{
-		printf("Invalid arguments\n");
-		return (0);
-	}
  	is_directory(file_name);
 	check_fd(file_name);
 	check_file_extension(file_name);

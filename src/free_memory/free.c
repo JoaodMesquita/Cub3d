@@ -13,3 +13,9 @@ void	free_array(char **array)
 	}
 	free(array);
 }
+
+void	free_struct(t_map *map)
+{
+	free_array(map->map_array);
+	free(map);
+}

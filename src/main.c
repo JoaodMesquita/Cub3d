@@ -17,14 +17,19 @@ int	main(int ac, char **av)
 	char	*file_name;
 	t_map	*map;
 
+	if (ac != 2)
+	{
+		printf("Invalid arguments\n");
+		exit (1);
+	}
 	file_name = av[1];
-	check_args(ac, file_name);
-	map = malloc(sizeof(t_map)); //dar free struct e suas variaveis
+	check_args(file_name);
+	map = calloc(1, sizeof(t_map)); //dar free struct e suas variaveis
 	if (!map)
 		return (1);
-	ft_memset(map, 0, sizeof(t_map));
 	if (!map_load(file_name, map))
 		exit (1);
 	parsing(map);
+	free_struct(map);
 	return (0);
 }
