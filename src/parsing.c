@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"cub3d.h"
+#include "cub3d.h"
 
 //mapa so pode conter 6 carateres: 1,0,N,S,E,W
 //tem de estar rodeado por paredes (1);
@@ -46,7 +46,7 @@ void	check_identifier(char *line, t_map *map)
 		check_duplicated(map, map->C_identifier++);
 	else if (map->type_identifiers < 6)
 	{
-		printf("Error\nInvalid map configuration file\n");
+		printf("Error\nInvalid map configuration file\n"); // funcao para erro;
 		exit(1);
 	}
 }
@@ -60,20 +60,60 @@ void	check_path_texture(char *line)
 	line = ft_strtrim(line, "\n");
 	check_fd(line);
 	check_file_extension_xpm(line);
+	free (line);
 }
+
+void	check_if_valid_number(char *line)
+{
+	if (*line == '-' || *line == '+')
+		line++;
+	while (*line)
+	{
+		if (!ft_isdigit(*line))
+		{
+			printf("Error\nValues must be only numbers\n");
+			exit(1);
+		}
+		line++;
+	}
+}
+
 void	check_rgb_values(char *line)
 {
-	char *rgb;
+	char	**rgb;
+	int		value;
+	int		i;
 
-	while (!is_space(*line))
+	while(ft_isalpha(*line) || is_space(*line))
 		line++;
-	while (is_space(*line))
-		line++;
-	while (ft_strchr(line, ','))
+	if (*line == '\0')
 	{
-		
+		printf ("Error\nNo RGB values\n");
+		exit(1);
 	}
-	printf("%s", rgb);
+	line = ft_strtrim(line, "\n");
+	rgb = ft_split(line, ',');
+	free(line);
+	i = 0;
+	while (rgb[i])
+	{
+		check_if_valid_number(rgb[i]);
+		value = ft_atoi(rgb[i]);
+		if (value < 0 || value > 255)
+		{
+			printf("Error\nvalue must be between 0 and 255\n"); // criar funcao de erro
+			free_array(rgb);
+			exit(1);
+		}
+		i++;
+	}
+	if (i != 3)
+	{
+		printf("Error\nWrong RGB values format\n"); // criar funcao de erro
+		free_array(rgb);
+		exit(1);
+	}
+	free_array(rgb);
 }
 
 void	parsing_config(char *line, t_map *map)

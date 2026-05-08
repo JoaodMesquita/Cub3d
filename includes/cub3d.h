@@ -38,5 +38,7 @@ int		is_empty_line(char *str);
 int		is_map(char *line);
 int		check_file_extension_xpm(char *str);
 
+//free memory
+void	free_array(char **array);
 
 #endif
