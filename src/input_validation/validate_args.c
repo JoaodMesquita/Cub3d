@@ -24,10 +24,7 @@ int	is_directory(char *file_name)
 	if (stat(file_name, &sb) == -1)
 		return (0);
 	if (S_ISDIR(sb.st_mode))
-	{
-		printf("Its's a directory\n");
-		exit(1);
-	}
+		error_exit(DIRECTORY);
 	return (0);
 } 
 
@@ -37,10 +34,7 @@ int	check_fd(char *str)
 
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
-	{
-		printf("Error\nNo such file or directory: '%s'\n", str);
-		exit(1);
-	}
+		error_exit(FD);
 	close(fd);
 	return (0);
 }
@@ -53,14 +47,11 @@ int	check_file_extension(char *str)
 	file_extension = ft_strrchr(str, '/');
 	file_extension = ft_strrchr(str, '.');
 	if (!file_extension)
-	{
-		printf("File must end with: '.cub' extension\n");
-		exit (1);
-	}
+		error_exit(MISSING_EXTENSION);
 	len = ft_strlen(file_extension);
 	if ((ft_strncmp(file_extension, ".cub", 4) == 0) && len == 4)
 		return (0);
-	printf("Wrong file extension!\n");
+	error_exit(WRONG_EXTENSION);
 	exit (1);
 }
 

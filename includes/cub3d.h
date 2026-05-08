@@ -3,6 +3,7 @@
 
 # include "../libft/libft.h"
 # include "get_next_line.h"
+# include "error_messages.h"
 # include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
@@ -24,7 +25,10 @@ typedef struct s_map
 }	t_map;
 
 
+// input validation
 int		check_args(char *file_name);
+
+// map loading
 int		map_load(char *file_name, t_map *map);
 int		fill_map_array(char *file_name, t_map *map);
 int		check_fd(char *str);
@@ -43,4 +47,6 @@ int		check_file_extension_xpm(char *str);
 void	free_struct(t_map *map);
 void	free_array(char **array);
 
+// error
+void	error_exit(const char *message);
 #endif

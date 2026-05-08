@@ -18,6 +18,12 @@
 //messagem de erro: "Error\n" seguida de mensagem informativa do erro
 //parsing das texturas: verificar se o ficheiro existe, se pode ser aberto, se termina em .xpm (extensao)
 
+void error_exit(const char *message)
+{
+	printf("Error\n%s\n", message);
+	exit(1);
+}
+
 void	check_duplicated(t_map *map, int identifier)
 {
 	if (identifier > 0)
