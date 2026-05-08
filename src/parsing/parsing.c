@@ -85,7 +85,7 @@ void	check_rgb_values(char *line)
 	int		i;
 
 	while(ft_isalpha(*line) || is_space(*line))
-		line++;
+		line++; // otimizar esta parte
 	if (*line == '\0')
 	{
 		printf ("Error\nNo RGB values\n");
