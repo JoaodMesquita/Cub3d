@@ -27,8 +27,7 @@ int	main(int ac, char **av)
 	map = calloc(1, sizeof(t_map)); //dar free struct e suas variaveis
 	if (!map)
 		return (1);
-	if (!map_load(file_name, map))
-		exit (1);
+	map_load(file_name, map);
 	parsing(map);
 	free_struct(map);
 	return (0);

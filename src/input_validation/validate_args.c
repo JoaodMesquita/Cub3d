@@ -34,7 +34,10 @@ int	check_fd(char *str)
 
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
-		error_exit(FD);
+	{
+		printf("Error\nNo such file or directory: '%s'\n", str);
+		exit (1);
+	}
 	close(fd);
 	return (0);
 }

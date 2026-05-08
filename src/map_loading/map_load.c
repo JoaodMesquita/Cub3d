@@ -43,7 +43,7 @@ char	**alloc_map_array(int size)
 	return (map_array);
 }
 
-int	fill_map_array(char *file_name, t_map *map)
+void	fill_map_array(char *file_name, t_map *map)
 {
 	char	*line;
 	int		fd;
@@ -51,24 +51,23 @@ int	fill_map_array(char *file_name, t_map *map)
 
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
-		return (0);
+		exit (1);
 	i = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
 		map->map_array[i] = ft_strdup(line);
 		if (!map->map_array[i])
-			return (0);
+			exit (1);
 		free(line);
 		line = get_next_line(fd);
 		i++;
 	}
 	map->map_array[i] = NULL;
 	close(fd);
-	return (1);
 }
 
-int	map_load(char *file_name, t_map *map)
+void	map_load(char *file_name, t_map *map)
 {
 	int	size;
 
@@ -76,12 +75,10 @@ int	map_load(char *file_name, t_map *map)
 	if (size == 0)
 	{
 		printf("Empty file!\n");
-		return (0);
+		exit (1);
 	}
 	map->map_array = alloc_map_array(size);
 	if (!map->map_array)
-		return (0);
-	if (!fill_map_array(file_name, map))
-		return (0);
-	return (1);
+		exit (1);
+	fill_map_array(file_name, map);
 }
