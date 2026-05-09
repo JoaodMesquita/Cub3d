@@ -45,10 +45,7 @@ void	check_identifier(char *line, t_map *map)
 	else if (ft_strncmp(line, "C ", 2) == 0)
 		check_duplicated(map, map->C_identifier++);
 	else if (map->type_identifiers < 6)
-	{
-		printf("Error\nInvalid map configuration file\n"); // funcao para erro;
-		exit(1);
-	}
+		error_free_exit(MISCONFIGURATION, map);
 }
 
 void	check_path_texture(char *line, t_map *map)
@@ -60,13 +57,14 @@ void	check_path_texture(char *line, t_map *map)
 	if (!check_fd(line))
 	{
 		free(line);
-		exit (1);
+		free_struct(map);
+		exit(1);
 	}
 	check_file_extension_xpm(line);
 	free (line);
 }
 
-void	check_if_valid_number(char *line)
+void	check_if_valid_number(char *line, t_map *map)
 {
 	while (is_space(*line))
 		line++;
@@ -75,39 +73,33 @@ void	check_if_valid_number(char *line)
 	while (*line)
 	{
 		if (!ft_isdigit(*line))
-		{
-			printf("Error\nValues must be only numbers\n");
-			exit(1);
-		}
+			error_free_exit(RGB_ONLY_NUMBERS, map);
 		line++;
 	}
 }
 
 void	check_rgb_values(char *line, t_map *map)
 {
-	char	**rgb;
 	int		value;
 	int		i;
 
 	while (!is_space(*line))
 		line++;
-/* 	if (*line == '\0')
-		error_exit(EMPTY_RGB_VALUES); */
 	line = ft_strtrim(line, " \n\t"); // trim do espacos tabs e newline
-	rgb = ft_split(line, ',');
+	map->rgb = ft_split(line, ',');
 	free(line);
 	i = 0;
-	while (rgb[i])
+	while (map->rgb[i])
 	{
-		check_if_valid_number(rgb[i]);
-		value = ft_atoi(rgb[i]);
+		check_if_valid_number(map->rgb[i], map);
+		value = ft_atoi(map->rgb[i]);
 		if (value < 0 || value > 255)
-			error_free_array_exit(RGB_RANGE_VALUES, rgb, map);
+			error_free_exit(RGB_RANGE_VALUES, map);
 		i++;
 	}
 	if (i != 3)
-		error_free_array_exit(MISSING_RGB_VALUES, rgb, map);
-	free_array(rgb);
+		error_free_exit(MISSING_RGB_VALUES, map);
+	//free_array(map->rgb); ????????????????????? wtf
 }
 
 void	parsing_config(char *line, t_map *map)

@@ -74,8 +74,8 @@ void	map_load(char *file_name, t_map *map)
 	size = ft_count_line(file_name);
 	if (size == 0)
 	{
-		printf("Empty file!\n");
-		exit (1);
+		free(map);
+		error_exit(EMPTY_FILE);
 	}
 	map->map_array = alloc_map_array(size);
 	if (!map->map_array)

@@ -52,10 +52,7 @@ void	check_file_extension(char *str)
 		error_exit(MISSING_EXTENSION);
 	len = ft_strlen(file_extension);
 	if ((ft_strncmp(file_extension, ".cub", 4) != 0) || len != 4)
-	{
 		error_exit(WRONG_EXTENSION);
-		exit (1);
-	}
 }
 
 void	check_args(char *file_name)
