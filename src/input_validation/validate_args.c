@@ -17,15 +17,14 @@
 //verificar extensao do ficheiro: ".cub";
 //verificar se o ficheiro tem permissoes
 
-int	is_directory(char *file_name)
+void	is_directory(char *file_name)
 {
 	struct stat	sb;
 
 	if (stat(file_name, &sb) == -1)
-		return (0);
+		return ;
 	if (S_ISDIR(sb.st_mode))
 		error_exit(DIRECTORY);
-	return (0);
 } 
 
 int	check_fd(char *str)
@@ -36,13 +35,13 @@ int	check_fd(char *str)
 	if (fd == -1)
 	{
 		printf("Error\nNo such file or directory: '%s'\n", str);
-		exit (1);
+		return (0);
 	}
 	close(fd);
-	return (0);
+	return (1);
 }
 
-int	check_file_extension(char *str)
+void	check_file_extension(char *str)
 {
 	char	*file_extension;
 	int		len;
@@ -52,16 +51,17 @@ int	check_file_extension(char *str)
 	if (!file_extension)
 		error_exit(MISSING_EXTENSION);
 	len = ft_strlen(file_extension);
-	if ((ft_strncmp(file_extension, ".cub", 4) == 0) && len == 4)
-		return (0);
-	error_exit(WRONG_EXTENSION);
-	exit (1);
+	if ((ft_strncmp(file_extension, ".cub", 4) != 0) || len != 4)
+	{
+		error_exit(WRONG_EXTENSION);
+		exit (1);
+	}
 }
 
-int	check_args(char *file_name)
+void	check_args(char *file_name)
 {
- 	is_directory(file_name);
-	check_fd(file_name);
+	is_directory(file_name);
+	if (!check_fd(file_name))
+		exit(1);
 	check_file_extension(file_name);
-	return (0);
 }

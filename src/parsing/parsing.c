@@ -18,12 +18,6 @@
 //messagem de erro: "Error\n" seguida de mensagem informativa do erro
 //parsing das texturas: verificar se o ficheiro existe, se pode ser aberto, se termina em .xpm (extensao)
 
-void error_exit(const char *message)
-{
-	printf("Error\n%s\n", message);
-	exit(1);
-}
-
 void	check_duplicated(t_map *map, int identifier)
 {
 	if (identifier > 0)
@@ -57,20 +51,25 @@ void	check_identifier(char *line, t_map *map)
 	}
 }
 
-void	check_path_texture(char *line)
+void	check_path_texture(char *line, t_map *map)
 {
+	(void)map;
 	while (!is_space(*line))
 		line++;
-	while (is_space(*line))
-		line++;
-	line = ft_strtrim(line, "\n");
-	check_fd(line);
+	line = ft_strtrim(line, " \n\t"); // trim do espacos tabs e newline
+	if (!check_fd(line))
+	{
+		free(line);
+		exit (1);
+	}
 	check_file_extension_xpm(line);
 	free (line);
 }
 
 void	check_if_valid_number(char *line)
 {
+	while (is_space(*line))
+		line++;
 	if (*line == '-' || *line == '+')
 		line++;
 	while (*line)
@@ -84,20 +83,17 @@ void	check_if_valid_number(char *line)
 	}
 }
 
-void	check_rgb_values(char *line)
+void	check_rgb_values(char *line, t_map *map)
 {
 	char	**rgb;
 	int		value;
 	int		i;
 
-	while(ft_isalpha(*line) || is_space(*line))
-		line++; // otimizar esta parte
-	if (*line == '\0')
-	{
-		printf ("Error\nNo RGB values\n");
-		exit(1);
-	}
-	line = ft_strtrim(line, "\n");
+	while (!is_space(*line))
+		line++;
+/* 	if (*line == '\0')
+		error_exit(EMPTY_RGB_VALUES); */
+	line = ft_strtrim(line, " \n\t"); // trim do espacos tabs e newline
 	rgb = ft_split(line, ',');
 	free(line);
 	i = 0;
@@ -106,19 +102,11 @@ void	check_rgb_values(char *line)
 		check_if_valid_number(rgb[i]);
 		value = ft_atoi(rgb[i]);
 		if (value < 0 || value > 255)
-		{
-			printf("Error\nvalue must be between 0 and 255\n"); // criar funcao de erro
-			free_array(rgb);
-			exit(1);
-		}
+			error_free_array_exit(RGB_RANGE_VALUES, rgb, map);
 		i++;
 	}
 	if (i != 3)
-	{
-		printf("Error\nWrong RGB values format\n"); // criar funcao de erro
-		free_array(rgb);
-		exit(1);
-	}
+		error_free_array_exit(MISSING_RGB_VALUES, rgb, map);
 	free_array(rgb);
 }
 
@@ -128,9 +116,9 @@ void	parsing_config(char *line, t_map *map)
 		line++;
 	check_identifier(line, map);
 	if (*line == 'F' || *line == 'C')
-		check_rgb_values(line);
+		check_rgb_values(line, map);
 	else
-		check_path_texture(line);
+		check_path_texture(line, map);
 }
 
 void	parsing(t_map *map)

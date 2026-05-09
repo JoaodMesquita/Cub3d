@@ -26,7 +26,7 @@ typedef struct s_map
 
 
 // input validation
-int		check_args(char *file_name);
+void	check_args(char *file_name);
 
 // map loading
 void	map_load(char *file_name, t_map *map);
@@ -48,5 +48,6 @@ void	free_struct(t_map *map);
 void	free_array(char **array);
 
 // error
-void	error_exit(const char *message);
+void	error_exit(char *message, t_map *map);
+void	error_free_array_exit(char *message, char **memory, t_map *map);
 #endif
