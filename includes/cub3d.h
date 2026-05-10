@@ -13,7 +13,8 @@
 typedef struct s_map
 {
 	char	**map_array;
-	char	**rgb;
+	int		floor_rgb[3];
+	int		ceiling_rgb[3];
 	//char	**grid;
 	int		is_map;
 	int		NO_identifier;
@@ -50,6 +51,6 @@ void	free_array(char **array);
 
 // error
 void	error_exit(char *message);
-void	error_free_struct_exit(char *message, t_map *map);
 void	error_free_exit(char *message, t_map *map);
+void	error_free_array_and_struct(char *message, t_map *map, char **array);
 #endif

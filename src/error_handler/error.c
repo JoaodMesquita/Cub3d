@@ -12,3 +12,9 @@ void	error_free_exit(char *message, t_map* map)
 	free_struct(map);
 	error_exit(message);
 }
+
+void	error_free_array_and_struct(char *message, t_map *map, char **array)
+{
+	free_array(array);
+	error_free_exit(message, map);
+}

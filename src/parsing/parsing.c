@@ -61,45 +61,55 @@ void	check_path_texture(char *line, t_map *map)
 		exit(1);
 	}
 	check_file_extension_xpm(line);
+	//fazer check se esta vazio
 	free (line);
 }
 
-void	check_if_valid_number(char *line, t_map *map)
+int	check_if_valid_number(char *line)
 {
-	while (is_space(*line))
-		line++;
-	if (*line == '-' || *line == '+')
-		line++;
-	while (*line)
-	{
-		if (!ft_isdigit(*line))
-			error_free_exit(RGB_ONLY_NUMBERS, map);
-		line++;
+	int	i;
+	char	*value;
+
+	value = ft_strtrim(line, " ");
+	i = 0;
+	while (value[i])
+	{	
+		if (value[i] == '-' || value[i] == '+')
+			i++;
+		if (!ft_isdigit(value[i]))
+		{
+			free(value);
+			return (0);
+		}
+		i++;
 	}
+	free(value);
+	return (1);
 }
 
-void	check_rgb_values(char *line, t_map *map)
+void	check_rgb_values(char *line, int rgb[3], t_map *map)
 {
-	int		value;
+	char	**split;
 	int		i;
 
 	while (!is_space(*line))
 		line++;
 	line = ft_strtrim(line, " \n\t"); // trim do espacos tabs e newline
-	map->rgb = ft_split(line, ',');
+	split = ft_split(line, ',');
 	free(line);
 	i = 0;
-	while (map->rgb[i])
+	while (split[i])
 	{
-		check_if_valid_number(map->rgb[i], map);
-		value = ft_atoi(map->rgb[i]);
-		if (value < 0 || value > 255)
-			error_free_exit(RGB_RANGE_VALUES, map);
+		if (!check_if_valid_number(split[i]))
+			error_free_array_and_struct(RGB_ONLY_NUMBERS, map, split);
+		rgb[i] = ft_atoi(split[i]);
+		if (rgb[i] < 0 || rgb[i] > 255)
+			error_free_array_and_struct(RGB_RANGE_VALUES, map, split);
 		i++;
 	}
 	if (i != 3)
-		error_free_exit(MISSING_RGB_VALUES, map);
-	//free_array(map->rgb); ????????????????????? wtf
+		error_free_array_and_struct(MISSING_RGB_VALUES, map, split);
+	free_array(split);
 }
 
 void	parsing_config(char *line, t_map *map)
@@ -107,8 +117,10 @@ void	parsing_config(char *line, t_map *map)
 	while (is_space(*line))
 		line++;
 	check_identifier(line, map);
-	if (*line == 'F' || *line == 'C')
-		check_rgb_values(line, map);
+	if (*line == 'F')
+		check_rgb_values(line, map->floor_rgb, map);
+	else if (*line == 'C')
+		check_rgb_values(line, map->ceiling_rgb, map);
 	else
 		check_path_texture(line, map);
 }

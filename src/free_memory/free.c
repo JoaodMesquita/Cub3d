@@ -16,8 +16,6 @@ void	free_array(char **array)
 
 void	free_struct(t_map *map)
 {
-	if (map->rgb)
-		free_array(map->rgb);
 	if (map->map_array)
 		free_array(map->map_array);
 	free(map);
