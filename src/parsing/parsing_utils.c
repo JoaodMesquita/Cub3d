@@ -45,22 +45,30 @@ int	is_map(char *line)
 	return (1);
 }
 
-int	check_file_extension_xpm(char *str)
+void	check_duplicated(t_map *map, int identifier)
+{
+	if (identifier > 0)
+		error_free_exit(DUPLICATED, map);
+	map->type_identifiers++;
+}
+
+void	check_file_extension_xpm(char *path, t_map *map)
 {
 	char	*file_extension;
 	int		len;
 
-	file_extension = ft_strrchr(str, '/');
+	file_extension = ft_strrchr(path, '/');
 	file_extension++;
 	file_extension = ft_strchr(file_extension, '.');
 	if (!file_extension)
 	{
-		printf("Error\nTextures: File must end with: '.xpm' extension\n");
-		exit (1);
+		free(path);
+		error_free_exit(MISSING_EXTENSION_XPM, map);
 	}
 	len = ft_strlen(file_extension);
-	if ((ft_strncmp(file_extension, ".xpm", 4) == 0) && len == 4)
-		return (0);
-	printf("Error\nWrong file extension!\n");
-	exit (1);
+	if ((ft_strncmp(file_extension, ".xpm", 4) != 0) && len == 4)
+	{
+		free(path);
+		error_free_exit(WRONG_EXTENSION, map);
+	}
 }

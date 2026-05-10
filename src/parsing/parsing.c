@@ -18,15 +18,6 @@
 //messagem de erro: "Error\n" seguida de mensagem informativa do erro
 //parsing das texturas: verificar se o ficheiro existe, se pode ser aberto, se termina em .xpm (extensao)
 
-void	check_duplicated(t_map *map, int identifier)
-{
-	if (identifier > 0)
-	{	
-		printf("Error\nDuplicated type identifier\n");
-		exit(1);
-	}
-	map->type_identifiers++;
-}
 
 void	check_identifier(char *line, t_map *map)
 {
@@ -48,21 +39,21 @@ void	check_identifier(char *line, t_map *map)
 		error_free_exit(MISCONFIGURATION, map);
 }
 
-void	check_path_texture(char *line, t_map *map)
+char	*check_path_texture(char *line, t_map *map)
 {
-	(void)map;
+	char	*path;
+
 	while (!is_space(*line))
 		line++;
-	line = ft_strtrim(line, " \n\t"); // trim do espacos tabs e newline
-	if (!check_fd(line))
+	path = ft_strtrim(line, " \n\t"); // trim do espacos tabs e newline
+	if (!check_fd(path))
 	{
-		free(line);
+		free(path);
 		free_struct(map);
 		exit(1);
 	}
-	check_file_extension_xpm(line);
-	//fazer check se esta vazio
-	free (line);
+	check_file_extension_xpm(path, map);
+	return (path);
 }
 
 int	check_if_valid_number(char *line)
@@ -114,6 +105,8 @@ void	check_rgb_values(char *line, int rgb[3], t_map *map)
 
 void	parsing_config(char *line, t_map *map)
 {
+	char	*path;
+
 	while (is_space(*line))
 		line++;
 	check_identifier(line, map);
@@ -122,7 +115,40 @@ void	parsing_config(char *line, t_map *map)
 	else if (*line == 'C')
 		check_rgb_values(line, map->ceiling_rgb, map);
 	else
-		check_path_texture(line, map);
+	{
+		path = check_path_texture(line, map);
+		if (line[0] == 'N')
+			map->textures.NO = path;
+		else if (line[0] == 'S')
+			map->textures.SO = path;
+		else if (line[0]== 'W')
+			map->textures.WE = path;
+		else if (line[0] == 'E')
+			map->textures.EA = path;
+	}
+}
+
+int	parsing_map(t_map *map, int start)
+{
+	int	i;
+	int	j;
+
+	i = start;
+	while (map->map_array[i])
+		i++;
+	map->grid = ft_calloc((i - start) + 1, sizeof(char *));
+	if(!map->grid)
+		return (-1);
+	j = 0;
+	while (map->map_array[start])
+	{
+		map->grid[j] = ft_strdup(map->map_array[start]);
+		printf("%s", map->grid[j]);
+		j++;
+		start++;
+	}
+	map->grid[j] = NULL;
+	return (start);
 }
 
 void	parsing(t_map *map)
@@ -137,8 +163,13 @@ void	parsing(t_map *map)
 			i++;
 			continue;
 		}
-		if (map->type_identifiers < 6)
-			parsing_config(map->map_array[i], map);
+			if (map->type_identifiers < 6)
+				parsing_config(map->map_array[i], map);
+			else
+			{
+				i = parsing_map(map, i);
+				break;
+			}
 		i++;
 	}
 }

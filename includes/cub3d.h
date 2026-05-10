@@ -9,21 +9,31 @@
 # include <unistd.h>
 #include <sys/stat.h>
 
-
-typedef struct s_map
+typedef struct	s_texture
 {
-	char	**map_array;
-	int		floor_rgb[3];
-	int		ceiling_rgb[3];
-	//char	**grid;
-	int		is_map;
-	int		NO_identifier;
-	int		SO_identifier;
-	int		WE_identifier;
-	int		EA_identifier;
-	int		F_identifier;
-	int		C_identifier;
-	int		type_identifiers;
+	char	*NO;
+	char	*SO;
+	char	*WE;
+	char	*EA;
+
+}	t_texture;
+
+
+typedef struct	s_map
+{
+	char		**map_array;
+	char		**grid;
+	int			floor_rgb[3];
+	int			ceiling_rgb[3];
+	//int		is_map;
+	int			NO_identifier;
+	int			SO_identifier;
+	int			WE_identifier;
+	int			EA_identifier;
+	int			F_identifier;
+	int			C_identifier;
+	int			type_identifiers;
+	t_texture	textures;
 }	t_map;
 
 
@@ -42,7 +52,8 @@ void	parsing(t_map *map);
 int		is_space(char c);
 int		is_empty_line(char *str);
 int		is_map(char *line);
-int		check_file_extension_xpm(char *str);
+void	check_duplicated(t_map *map, int identifier);
+void	check_file_extension_xpm(char *path, t_map *map);
 
 //free memory
 
