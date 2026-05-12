@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 12:40:58 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/12 13:20:38 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/12 14:42:36 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	fill_map_grid_array(t_map *map, int start)
 {
 	int	i;
 	int	j;
+	char	*line;
 
 	i = start;
 	while (map->map_array[i])
@@ -26,7 +27,9 @@ int	fill_map_grid_array(t_map *map, int start)
 	j = 0;
 	while (map->map_array[start])
 	{
-		map->grid[j] = ft_strdup(map->map_array[start]);
+		line = ft_strtrim(map->map_array[start], "\n");
+		map->grid[j] = ft_strdup(line);
+		free(line);
 		j++;
 		start++;
 	}
@@ -40,7 +43,6 @@ int	parsing_map_grid(t_map *map, int start)
 	
 	map->is_map = 1; // indicar que o map_grid comecou.
 	result = fill_map_grid_array(map, start); // preencher grid e retornar quantas vezes o i andou.
-	
-	
+	check_map_chars(map->grid, map);
 	return (result);
 }

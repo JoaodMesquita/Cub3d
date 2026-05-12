@@ -13,5 +13,7 @@
 # define RGB_ONLY_NUMBERS "Values must be only numbers"
 # define MISSING_RGB_VALUES "Floor/ceiling RGB requires 3 values."
 # define EMPTY_MAP "Map grid not found"
+# define INVALID_CHAR "Invalid map Character"
+# define DUPLICATE_PLAYER "Multiple player spawn points found"
 #endif
 

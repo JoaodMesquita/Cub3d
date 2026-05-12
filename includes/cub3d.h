@@ -26,6 +26,7 @@ typedef struct	s_map
 	int			floor_rgb[3];
 	int			ceiling_rgb[3];
 	int			is_map;
+	int			player_count;
 	int			NO_identifier;
 	int			SO_identifier;
 	int			WE_identifier;
@@ -52,7 +53,7 @@ int		parsing_map_grid(t_map *map, int start);
 // parsing utils
 int		is_space(char c);
 int		is_empty_line(char *str);
-int		is_map(char *line);
+void	check_map_chars(char **map_grid, t_map *map);
 void	check_duplicated(t_map *map, int identifier);
 void	check_file_extension_xpm(char *path, t_map *map);
 

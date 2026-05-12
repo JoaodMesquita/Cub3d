@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 10:58:00 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/07 12:55:28 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/12 15:13:58 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,35 @@ int	is_empty_line(char *str)
 	return (1);
 }
 
-int	is_map(char *line)
+int	is_player(char c)
 {
-	while(*line)
+	return (c == 'N' || c == 'S' || c == 'W' || c == 'E');
+}
+
+
+void	check_map_chars(char **map_grid, t_map *map)
+{
+	char	*valid_chars;
+	int		i;
+	int		j;
+	
+	valid_chars = " 01NSWE";
+	i = 0;
+	while(map_grid[i])
 	{
-		if (*line != ' ' 
-		|| *line != '0'
-		|| *line != '1'
-		|| *line != 'N'
-		|| *line != 'S'
-		|| *line != 'W'
-		|| *line != 'E')
-			return (0);
-		line++;
+		j = 0;
+		while (map_grid[i][j])
+		{
+			if(!ft_strchr(valid_chars, map_grid[i][j]))
+				error_free_exit(INVALID_CHAR,map);
+			if(is_player(map_grid[i][j]))
+				map->player_count++;
+			j++;
+		}
+		i++;
 	}
-	return (1);
+	if (map->player_count > 1)
+		error_free_exit(DUPLICATE_PLAYER,map);
 }
 
 void	check_duplicated(t_map *map, int identifier)
