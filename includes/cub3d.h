@@ -48,7 +48,6 @@ int		check_fd(char *str);
 
 // parsing
 void	parsing(t_map *map);
-int		parsing_map_grid(t_map *map, int start);
 
 // parsing utils
 int		is_space(char c);
@@ -56,6 +55,8 @@ int		is_empty_line(char *str);
 void	check_map_chars(char **map_grid, t_map *map);
 void	check_duplicated(t_map *map, int identifier);
 void	check_file_extension_xpm(char *path, t_map *map);
+int		parsing_map_grid(t_map *map, int start);
+int		is_player(char c);
 
 //free memory
 

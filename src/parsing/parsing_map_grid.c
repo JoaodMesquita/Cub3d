@@ -36,6 +36,7 @@ int	fill_map_grid_array(t_map *map, int start)
 	map->grid[j] = NULL;
 	return (start);
 }
+
 void	check_map_chars(char **map_grid, t_map *map)
 {
 	char	*valid_chars;
