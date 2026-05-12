@@ -25,7 +25,7 @@ typedef struct	s_map
 	char		**grid;
 	int			floor_rgb[3];
 	int			ceiling_rgb[3];
-	//int		is_map;
+	int			is_map;
 	int			NO_identifier;
 	int			SO_identifier;
 	int			WE_identifier;
@@ -47,6 +47,7 @@ int		check_fd(char *str);
 
 // parsing
 void	parsing(t_map *map);
+int		parsing_map_grid(t_map *map, int start);
 
 // parsing utils
 int		is_space(char c);

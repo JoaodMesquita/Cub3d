@@ -12,5 +12,6 @@
 # define RGB_RANGE_VALUES "Value must be between 0 and 255."
 # define RGB_ONLY_NUMBERS "Values must be only numbers"
 # define MISSING_RGB_VALUES "Floor/ceiling RGB requires 3 values."
+# define EMPTY_MAP "Map grid not found"
 #endif
 

@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:03:15 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/07 15:26:33 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/12 12:41:50 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,28 +128,6 @@ void	parsing_config(char *line, t_map *map)
 	}
 }
 
-int	parsing_map(t_map *map, int start)
-{
-	int	i;
-	int	j;
-
-	i = start;
-	while (map->map_array[i])
-		i++;
-	map->grid = ft_calloc((i - start) + 1, sizeof(char *));
-	if(!map->grid)
-		return (-1);
-	j = 0;
-	while (map->map_array[start])
-	{
-		map->grid[j] = ft_strdup(map->map_array[start]);
-		printf("%s", map->grid[j]);
-		j++;
-		start++;
-	}
-	map->grid[j] = NULL;
-	return (start);
-}
 
 void	parsing(t_map *map)
 {
@@ -167,9 +145,11 @@ void	parsing(t_map *map)
 				parsing_config(map->map_array[i], map);
 			else
 			{
-				i = parsing_map(map, i);
+				i = parsing_map_grid(map, i);
 				break;
 			}
 		i++;
 	}
+	if (!map->is_map)
+		error_free_exit(EMPTY_MAP, map);
 }
