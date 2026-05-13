@@ -18,11 +18,14 @@ typedef struct	s_texture
 
 }	t_texture;
 
-
 typedef struct	s_map
 {
 	char		**map_array;
 	char		**grid;
+	int			width;
+	int			height;
+	int			player_x;
+	int			player_y;
 	int			floor_rgb[3];
 	int			ceiling_rgb[3];
 	int			is_map;
@@ -58,6 +61,7 @@ void	check_file_extension_xpm(char *path, t_map *map);
 int		parsing_map_grid(t_map *map, int start);
 int		is_player(char c);
 int		get_longest_line(t_map *map);
+int		get_map_height(t_map *map);
 
 //free memory
 

@@ -88,6 +88,28 @@ void	check_map_chars(char **map_grid, t_map *map)
 		error_free_exit(DUPLICATE_PLAYER,map);
 }
 
+void	get_player_position(t_map *map)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			if (is_player(map->grid[y][x]))
+			{
+				map->player_y = y;
+				map->player_x = x;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 int	parsing_map_grid(t_map *map, int start)
 {
 	int	result;
@@ -96,6 +118,9 @@ int	parsing_map_grid(t_map *map, int start)
 	result = fill_map_grid_array(map, start); //preencher grid e retornar quantas vezes o i andou.
 	check_map_chars(map->grid, map); // checkar caracteres validos
 	normalize_map(map); //preparar mapa para floodfill (rectangulizar)
-	
+	map->height = get_map_height(map); //calcular altura do mapa
+	map->width = ft_strlen(map->grid[0]); // calcular comprimento do mapa
+	get_player_position(map);
+	printf("player_y: %i\nplayer_x: %i\n", map->player_y, map->player_x);
 	return (result);
 }

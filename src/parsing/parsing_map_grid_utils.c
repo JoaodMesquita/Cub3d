@@ -35,3 +35,13 @@ int	get_longest_line(t_map *map)
 	}
 	return (max);
 }
+
+int	get_map_height(t_map *map)
+{
+	int	i;
+
+	i = 0;
+	while(map->grid[i])
+		i++;
+	return (i);
+}
