@@ -79,16 +79,35 @@ void	check_map_chars(char **map_grid, t_map *map)
 			if(!ft_strchr(valid_chars, map_grid[i][j]))
 				error_free_exit(INVALID_CHAR,map);
 			if(is_player(map_grid[i][j]))
+			{
+				map->player_y = i; //player position
+				map->player_x = j;
 				map->player_count++;
+			}
 			j++;
 		}
 		i++;
 	}
-	if (map->player_count > 1)
+	if (map->player_count != 1)
 		error_free_exit(DUPLICATE_PLAYER,map);
 }
 
-void	get_player_position(t_map *map)
+void	flood_fill(t_map *map, int x, int y)
+{
+	if (x < 0 || y < 0 || x >= map->width || y >= map->height)
+		return ;
+	if (map->grid[y][x] == ' ')
+		return ;
+	if (map->grid[y][x] == '1' || map->grid[y][x] == 'F')
+		return ;
+	map->grid[y][x] = 'F';
+	flood_fill(map, x - 1, y);
+	flood_fill(map, x + 1, y);
+	flood_fill(map, x, y - 1);
+	flood_fill(map, x, y + 1);
+}
+
+/* void	get_player_position(t_map *map)
 {
 	int	x;
 	int	y;
@@ -108,7 +127,7 @@ void	get_player_position(t_map *map)
 		}
 		y++;
 	}
-}
+} */
 
 int	parsing_map_grid(t_map *map, int start)
 {
@@ -116,11 +135,17 @@ int	parsing_map_grid(t_map *map, int start)
 	
 	map->is_map = 1; //indicar que o map_grid comecou.
 	result = fill_map_grid_array(map, start); //preencher grid e retornar quantas vezes o i andou.
-	check_map_chars(map->grid, map); // checkar caracteres validos
 	normalize_map(map); //preparar mapa para floodfill (rectangulizar)
 	map->height = get_map_height(map); //calcular altura do mapa
 	map->width = ft_strlen(map->grid[0]); // calcular comprimento do mapa
-	get_player_position(map);
-	printf("player_y: %i\nplayer_x: %i\n", map->player_y, map->player_x);
+	check_map_chars(map->grid, map); // checkar caracteres validos
+	//get_player_position(map);
+	flood_fill(map, map->player_y, map->player_x);
+	int i = 0;
+	while (map->grid[i])
+	{
+		printf("%s\n", map->grid[i]);
+		i++;
+	}
 	return (result);
 }
