@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 10:25:28 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/07 12:39:15 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:29:25 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ int	main(int ac, char **av)
 		return (1);
 	map_load(file_name, map);
 	parsing(map);
-	free_struct(map);
+	/* int i = 0;
+	while (map->grid[i])
+	{
+		printf("%s\n", map->grid[i]);
+		i++;
+	}
+	free_struct(map); */
 	return (0);
 }

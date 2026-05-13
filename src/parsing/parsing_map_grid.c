@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 12:40:58 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/13 13:03:40 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:28:50 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	normalize_map(t_map *map)
 		if (ft_strlen(map->grid[i]) < longest_line)
 		{
 			size = longest_line - ft_strlen(map->grid[i]);
-			str = calloc((size + 1), sizeof(char *));
-			str = ft_memset(str, ' ', size);
+			str = calloc((size + 1), sizeof(char));
+			ft_memset(str, ' ', size);
 			tmp = map->grid[i];
 			map->grid[i] = ft_strjoin(tmp, str);
 			free(tmp);
@@ -94,7 +94,8 @@ int	parsing_map_grid(t_map *map, int start)
 	
 	map->is_map = 1; //indicar que o map_grid comecou.
 	result = fill_map_grid_array(map, start); //preencher grid e retornar quantas vezes o i andou.
-	check_map_chars(map->grid, map);
-	normalize_map(map);
+	check_map_chars(map->grid, map); // checkar caracteres validos
+	normalize_map(map); //preparar mapa para floodfill (rectangulizar)
+	
 	return (result);
 }
