@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 12:40:58 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/13 12:50:44 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:03:40 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	normalize_map(t_map *map)
 	size_t	longest_line;
 	int		size;
 	char	*str;
+	char	*tmp;
 	int		i;
 	
 	longest_line = get_longest_line(map);
@@ -28,7 +29,9 @@ void	normalize_map(t_map *map)
 			size = longest_line - ft_strlen(map->grid[i]);
 			str = calloc((size + 1), sizeof(char *));
 			str = ft_memset(str, ' ', size);
-			map->grid[i] = ft_strjoin(map->grid[i], str);
+			tmp = map->grid[i];
+			map->grid[i] = ft_strjoin(tmp, str);
+			free(tmp);
 			free(str);
 		}
 		i++;
