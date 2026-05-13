@@ -6,11 +6,34 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 12:40:58 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/12 15:30:21 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/13 12:50:44 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	normalize_map(t_map *map)
+{	
+	size_t	longest_line;
+	int		size;
+	char	*str;
+	int		i;
+	
+	longest_line = get_longest_line(map);
+	i = 0;
+	while (map->grid[i])
+	{
+		if (ft_strlen(map->grid[i]) < longest_line)
+		{
+			size = longest_line - ft_strlen(map->grid[i]);
+			str = calloc((size + 1), sizeof(char *));
+			str = ft_memset(str, ' ', size);
+			map->grid[i] = ft_strjoin(map->grid[i], str);
+			free(str);
+		}
+		i++;
+	}
+}
 
 int	fill_map_grid_array(t_map *map, int start)
 {
@@ -66,8 +89,9 @@ int	parsing_map_grid(t_map *map, int start)
 {
 	int	result;
 	
-	map->is_map = 1; // indicar que o map_grid comecou.
-	result = fill_map_grid_array(map, start); // preencher grid e retornar quantas vezes o i andou.
+	map->is_map = 1; //indicar que o map_grid comecou.
+	result = fill_map_grid_array(map, start); //preencher grid e retornar quantas vezes o i andou.
 	check_map_chars(map->grid, map);
+	normalize_map(map);
 	return (result);
 }

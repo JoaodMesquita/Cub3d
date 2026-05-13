@@ -57,6 +57,7 @@ void	check_duplicated(t_map *map, int identifier);
 void	check_file_extension_xpm(char *path, t_map *map);
 int		parsing_map_grid(t_map *map, int start);
 int		is_player(char c);
+int		get_longest_line(t_map *map);
 
 //free memory
 
