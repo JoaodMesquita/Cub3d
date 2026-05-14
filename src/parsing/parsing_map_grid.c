@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 12:40:58 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/13 13:28:50 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/14 14:07:03 by joapedro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	check_map_chars(char **map_grid, t_map *map)
 		error_free_exit(DUPLICATE_PLAYER,map);
 }
 
-void	flood_fill(t_map *map, int x, int y)
+void	flood_fill(t_map *map, int y, int x)
 {
 	if (x < 0 || y < 0 || x >= map->width || y >= map->height)
 		return ;
