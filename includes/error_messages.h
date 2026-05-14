@@ -15,5 +15,6 @@
 # define EMPTY_MAP "Map grid not found."
 # define INVALID_CHAR "Invalid map Character."
 # define DUPLICATE_PLAYER "Multiple player spawn points found."
+# define FLOOD_FILL "Invalid map."
 #endif
 

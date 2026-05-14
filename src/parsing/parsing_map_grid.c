@@ -95,16 +95,16 @@ void	check_map_chars(char **map_grid, t_map *map)
 void	flood_fill(t_map *map, int y, int x)
 {
 	if (x < 0 || y < 0 || x >= map->width || y >= map->height)
-		return ;
+		error_free_exit(FLOOD_FILL, map);
 	if (map->grid[y][x] == ' ')
-		return ;
+		error_free_exit(FLOOD_FILL, map);
 	if (map->grid[y][x] == '1' || map->grid[y][x] == 'F')
-		return ;
+		return;
 	map->grid[y][x] = 'F';
-	flood_fill(map, x - 1, y);
-	flood_fill(map, x + 1, y);
-	flood_fill(map, x, y - 1);
-	flood_fill(map, x, y + 1);
+	flood_fill(map, y - 1, x);
+	flood_fill(map, y + 1, x);
+	flood_fill(map, y, x - 1);
+	flood_fill(map, y, x + 1);
 }
 
 /* void	get_player_position(t_map *map)
