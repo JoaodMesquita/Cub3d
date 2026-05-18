@@ -1,5 +1,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
+# define WIDTH 1280
+# define HEIGHT 720
 
 # include "../libft/libft.h"
 # include "get_next_line.h"
@@ -7,7 +9,8 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
+# include <mlx.h>
 
 typedef struct	s_texture
 {
@@ -62,6 +65,7 @@ int		parsing_map_grid(t_map *map, int start);
 int		is_player(char c);
 int		get_longest_line(t_map *map);
 int		get_map_height(t_map *map);
+void	edge_scan(t_map *map);
 
 //free memory
 
