@@ -2,6 +2,7 @@
 # define CUB3D_H
 # define WIDTH 1280
 # define HEIGHT 720
+# define RATIO map->ratio //36 for FHD, 24 for HD
 
 # include "../libft/libft.h"
 # include "get_next_line.h"
@@ -27,8 +28,9 @@ typedef struct	s_map
 	void		*mlx_win;
 	char		**map_array;
 	char		**grid;
-	int			width;
-	int			height;
+	float		width;
+	float		height;
+	float		ratio;
 	int			player_x;
 	int			player_y;
 	int			floor_rgb[3];

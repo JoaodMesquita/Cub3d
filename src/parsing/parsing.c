@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 11:03:15 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/12 12:41:50 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/18 18:21:56 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void	parsing(t_map *map)
 			}
 		i++;
 	}
+	map->ratio = (map->width / map->height) * 6.3;
 	if (!map->is_map)
 		error_free_exit(EMPTY_MAP, map);
 }
