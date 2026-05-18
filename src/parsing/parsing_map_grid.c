@@ -6,7 +6,7 @@
 /*   By: joapedro <joapedro@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 12:40:58 by joapedro          #+#    #+#             */
-/*   Updated: 2026/05/18 12:53:56 by joapedro         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:40:27 by grui-ant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	parsing_map_grid(t_map *map, int start)
 	map->height = get_map_height(map); //calcular altura do mapa
 	map->width = ft_strlen(map->grid[0]); // calcular comprimento do mapa
 	check_map_chars(map->grid, map); // checkar caracteres validos
-	flood_fill(map, map->player_y, map->player_x);
+	//flood_fill(map, map->player_y, map->player_x); //Make copy
 	int i = 0;
 	while (map->grid[i])
 	{

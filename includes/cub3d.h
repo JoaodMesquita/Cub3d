@@ -23,6 +23,8 @@ typedef struct	s_texture
 
 typedef struct	s_map
 {
+	void		*mlx;
+	void		*mlx_win;
 	char		**map_array;
 	char		**grid;
 	int			width;
@@ -43,6 +45,11 @@ typedef struct	s_map
 	t_texture	textures;
 }	t_map;
 
+typedef struct	s_player
+{
+	float	dir_x;
+	float	dir_y;
+}	t_player;
 
 // input validation
 void	check_args(char *file_name);
@@ -67,8 +74,10 @@ int		get_longest_line(t_map *map);
 int		get_map_height(t_map *map);
 void	edge_scan(t_map *map);
 
-//free memory
+//Minimap rendering
+void	render_minimap(t_map *map);
 
+//free memory
 void	free_struct(t_map *map);
 void	free_array(char **array);
 
