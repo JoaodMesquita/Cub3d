@@ -1,31 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_minimap.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grui-ant <grui-ant@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/19 14:45:02 by grui-ant          #+#    #+#             */
+/*   Updated: 2026/05/19 15:18:50 by grui-ant         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	*draw_square(t_map *map, int x, int y, int size, int color)
 {
 	int	i;
+	t_pixel	pixel;
 
+	pixel.img = mlx_new_image(map->mlx, WIDTH, HEIGHT);
+	pixel.addr = mlx_get_data_addr(pixel.img, &pixel.bits_per_pixel, &pixel.line_length, &pixel.endian);
 	i = 0;
 	while (i < size)
 	{
-		mlx_pixel_put(map->mlx, map->mlx_win, x + i, y, color);
+		pixel_put(&pixel, x + i, y, color);
+		mlx_put_image_to_window(map->mlx, map->mlx_win, pixel.img, 0, 0);
 		i++;
 	}
 	i = 0;
 	while (i < size)
 	{
-		mlx_pixel_put(map->mlx, map->mlx_win, x, y + i, color);
+		pixel_put(&pixel, x, y + i, color);
+		mlx_put_image_to_window(map->mlx, map->mlx_win, pixel.img, 0, 0);
 		i++;
 	}
 	i = 0;
 	while (i < size)
 	{
-		mlx_pixel_put(map->mlx, map->mlx_win, x + size, y + i, color);
+		pixel_put(&pixel, x + size, y + i, color);
+		mlx_put_image_to_window(map->mlx, map->mlx_win, pixel.img, 0, 0);
 		i++;
 	}
 	i = 0;
 	while (i < size + 1)
 	{
-		mlx_pixel_put(map->mlx, map->mlx_win, x + i, y + size, color);
+		pixel_put(&pixel, x + i, y + size, color);
+		mlx_put_image_to_window(map->mlx, map->mlx_win, pixel.img, 0, 0);
 		i++;
 	}
 	return (0);

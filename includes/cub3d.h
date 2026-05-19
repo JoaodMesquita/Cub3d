@@ -53,6 +53,14 @@ typedef struct	s_player
 	float	dir_y;
 }	t_player;
 
+typedef struct	s_pixel {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_pixel;
+
 // input validation
 void	check_args(char *file_name);
 
@@ -78,6 +86,7 @@ void	edge_scan(t_map *map);
 
 //Minimap rendering
 void	render_minimap(t_map *map);
+void	pixel_put(t_pixel *pixel, int x, int y, int color);
 
 //free memory
 void	free_struct(t_map *map);
